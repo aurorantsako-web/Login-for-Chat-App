@@ -15,9 +15,11 @@ public class Login {
     private String phoneNumber;
     private String firstName;
     private String lastName;
-    
+   
+    //default constructor
     public Login() {}
 
+    // checks if the username contains an underscore (_) and is no more than 5 characters long.
     public boolean checkUserName(String username) {
         if (username == null) {
             return false;
