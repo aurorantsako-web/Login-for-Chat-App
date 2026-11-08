@@ -52,7 +52,7 @@ public class Main {
              System.out.println("Enter Password: ");
              String loginPassword = input.nextLine();
              
-             // Verify entered credentials against saved instance values
+            // Verify entered credential against saved instance values
              boolean success = login.loginUser(loginUsername, loginPassword);
              String statusMessage = login.returnLoginStatus(success);
              
