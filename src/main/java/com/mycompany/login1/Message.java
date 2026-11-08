@@ -36,6 +36,17 @@ public class Message {
    public boolean checkMessageID() {
         return this.messageID != null && this.messageID.length() <= 10;
     }
-   
+   public String checkMessageLength(String messageText) {
+        if (messageText == null) {
+            return "Please enter a message of less than 250 characters.";
+        }
+        if (messageText.length() <= 250) {
+            return "Message ready to send.";
+        } else {
+            int excess = messageText.length() - 250;
+            return "Message exceeds 250 characters by " + excess + "; please reduce the size.";
+        }
     }
+   
+    
 }
