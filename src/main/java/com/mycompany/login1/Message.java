@@ -25,7 +25,17 @@ public class Message {
         this.messageID = generateMessageID();
         this.messageHash = createMessageHash();
     }
-   
+    public String generateMessageID() {
+        Random rand = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            sb.append(rand.nextInt(10));
+        }
+        return sb.toString();
     }
+   public boolean checkMessageID() {
+        return this.messageID != null && this.messageID.length() <= 10;
+    }
+   
     }
 }
