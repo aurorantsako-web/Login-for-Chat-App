@@ -36,7 +36,7 @@ public class Main {
         
         System.out.print("Enter Cell Phone (+27...): ");
         String phone = scanner.nextLine();
-        
+        //
         String regStatus = loginSystem.registerUser(username, password, phone, firstName, lastName);
         System.out.println(regStatus);
         
@@ -65,6 +65,7 @@ public class Main {
         // Step 3: QuickChat Main Menu Loop
         System.out.println("\nWelcome to QuickChat");
         
+        List<Message> storedMessagesList = new ArrayList<>();
         List<Message> sentMessagesList = new ArrayList<>();
         int totalSentCount = 0;
         boolean running = true;
@@ -74,6 +75,7 @@ public class Main {
             System.out.println("1) Send Messages");
             System.out.println("2) Show recently sent messages");
             System.out.println("3) Quit");
+            System.out.println("Stored Messages Menu");
             System.out.print("Option: ");
 
             String inputChoice = scanner.nextLine();
@@ -100,7 +102,7 @@ public class Main {
                         System.out.print("Enter Message Text: ");
                         String text = scanner.nextLine();
 
-                        Message msg = new Message(totalSentCount, recipient, text);
+                        Message msg = new Message(totalSentCount, recipient, text, "Sent");
                         
                         String lenCheck = msg.checkMessageLength(text);
                         System.out.println(lenCheck);
@@ -137,11 +139,69 @@ public class Main {
                     running = false;
                     System.out.println("Exiting QuickChat. Total messages sent during session: " + sentMessagesList.size());
                     break;
-
-                default:
-                    System.out.println("Invalid option. Please enter 1, 2, or 3.");
-                    break;
+                case 4:
+                    System.out.println("\n--- STORED MESSAGES MENU ---");
+                    System.out.println("a) Display sender and recipient of all stored messages");
+                    System.out.println("b) Display the longest stored message");
+                    System.out.println("c) Search for a message ID and display corresponding recipient and message");
+                    System.out.println("d) Search for all messages stored for a particular recipient");
+                    System.out.println("e) Delete a message using the message hash");
+                    System.out.println("f) Display a report that lists full details of all stored messages");
+                    System.out.print("Select sub-option (a-f): ");
+                    String subChoice = scanner.nextLine().trim().toLowerCase();
+                    
+            switch (subChoice) {
+                case "a":
+                    System.out.println("\n--- Sender & Recipient of Stored Messages ---");
+                  for (Message m : storedMessagesList) {
+                     System.out.println("Recipient: " + m.getRecipient() + " | Text: " + m.getMessageText());
+        }
+            break;
+                case "b":
+                     Message longest = storedMessagesList.stream()
+                     .max((m1, m2) -> Integer.compare(m1.getMessageText().length(), m2.getMessageText().length()))
+                     .orElse(null);
+                    if (longest != null) {
+                       System.out.println("\nLongest Stored Message: " + longest.getMessageText());
+        }
+            break;
+                case "c":
+                     System.out.print("Enter Message ID to search: ");
+                     String searchId = scanner.nextLine();
+                  for (Message m : storedMessagesList) {
+                      if (m.getMessageID().equals(searchId)) {
+                        System.out.println("Recipient: " + m.getRecipient() + " | Message: " + m.getMessageText());
             }
         }
-    }
+            break;
+                case "d":
+                     System.out.print("Enter Recipient cell number: ");
+                     String searchRecip = scanner.nextLine();
+                  for (Message m : storedMessagesList) {
+                     if (m.getRecipient().equals(searchRecip)) {
+                     System.out.println("Message: " + m.getMessageText());
+            }
+        }
+            break;
+                case "e":
+                     System.out.print("Enter Message Hash to delete: ");
+                     String hashDel = scanner.nextLine();
+                     storedMessagesList.removeIf(m -> m.getMessageHash().equalsIgnoreCase(hashDel));
+                     System.out.println("Message with hash " + hashDel + " successfully deleted.");
+            break;
+                case "f":
+                     System.out.println("\n--- Full Stored Messages Report ---");
+                 for (Message m : storedMessagesList) {
+                     System.out.println(m.printMessages() + "\n-------------------");
+        }
+           break;
+          default:
+                  System.out.println("Invalid sub-option.");
+}          break;
+            }
+        }
+     }
 }
+     
+                    
+         
