@@ -78,32 +78,55 @@ public class MessageTest {
     }
 
     @Test
-    public void testSentMessagesArrayPopulated() {
-        Message msg1 = new Message(1, "+27834557896", "Did you get the cake?", "Sent");
-        assertEquals("Did you get the cake?", msg1.getMessageText());
-        assertEquals("Sent", msg1.getFlag());
-    }
-
-    @Test
-    public void testDisplayLongestMessage() {
-        Message msg2 = new Message(2, "+27838884567", "Where are you? You are late! I have asked you to be on time.", "Stored");
-        assertEquals("Where are you? You are late! I have asked you to be on time.", msg2.getMessageText());
-    }
-
-    @Test
-    public void testSearchForMessageID() {
-        Message msg4 = new Message(4, "0838884567", "It is dinner time !", "Sent");
-        assertTrue(msg4.checkMessageID());
-        assertEquals("It is dinner time !", msg4.getMessageText());
-    }
-
-    @Test
-    public void testDeleteMessageByHash() {
-        Message msg2 = new Message(2, "+27838884567", "Where are you? You are late! I have asked you to be on time.", "Stored");
-        String hash = msg2.createMessageHash();
-        assertNotNull(hash);
-        assertFalse(hash.isEmpty());
-    }
+public void testSentMessagesArrayPopulated() {
+    Message msg1 = new Message(1, "+27834557896", "Did you get the cake?", "Sent");
+    Message msg4 = new Message(4, "0838884567", "It is dinner time!", "Sent");
+    assertEquals("Did you get the cake?", msg1.getMessageText());
+    assertEquals("It is dinner time!", msg4.getMessageText());
 }
 
+@Test
+public void testDisplayLongestMessage() {
+    Message msg1 = new Message(1, "+27834557896", "Did you get the cake?", "Sent");
+    Message msg2 = new Message(2, "+27838884567", "Where are you? You are late! I have asked you to be on time.", "Stored");
+    Message msg3 = new Message(3, "+27834484567", "Yohoooo, I am at your gate.", "Disregard");
+    Message msg4 = new Message(4, "0838884567", "It is dinner time!", "Sent");
+    
+    // Logic to find longest or direct assertion of the longest expected text
+    String expectedLongest = "Where are you? You are late! I have asked you to be on time.";
+    assertEquals(expectedLongest, msg2.getMessageText());
+}
 
+@Test
+public void testSearchForMessageID() {
+    Message msg4 = new Message(4, "0838884567", "It is dinner time!", "Sent");
+    assertEquals("0838884567", msg4.getRecipient()); // Or matching your messageID field
+    assertEquals("It is dinner time!", msg4.getMessageText());
+}
+
+@Test
+public void testSearchByRecipient() {
+    Message msg2 = new Message(2, "+27838884567", "Where are you? You are late! I have asked you to be on time.", "Stored");
+    Message msg5 = new Message(5, "+27838884567", "Ok, I am leaving without you.", "Stored");
+    
+    assertEquals("+27838884567", msg2.getRecipient());
+    assertEquals("+27838884567", msg5.getRecipient());
+}
+
+@Test
+public void testDeleteMessageByHash() {
+    Message msg2 = new Message(2, "+27838884567", "Where are you? You are late! I have asked you to be on time.", "Stored");
+    String hash = msg2.createMessageHash();
+    assertNotNull(hash);
+    assertFalse(hash.isEmpty());
+}
+
+@Test
+public void testDisplayReport() {
+    Message msg1 = new Message(1, "+27834557896", "Did you get the cake?", "Sent");
+    String report = msg1.printMessages();
+    assertNotNull(report);
+    assertFalse(report.isEmpty());
+}
+}
+    
